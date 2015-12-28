@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
 	"strconv"
 	"time"
-
-	"github.com/carlmjohnson/go-utils/normalizedsort"
 )
 
 var notes = [12]string{"C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B"}
@@ -36,7 +35,7 @@ type Chord struct {
 }
 
 func (c Chord) String() string {
-	s := c.Name
+	s := ""
 
 	for i := 5; i >= 0; i-- {
 		s += "\n  -"
@@ -248,13 +247,26 @@ func Random(root string) Chord {
 	return Variants[i](root)
 }
 
+func Shuffle(s []string) {
+	for i := len(s) - 1; i > 0; i-- {
+		j := rnd.Intn(i + 1)
+		s[i], s[j] = s[j], s[i]
+	}
+}
+
 func main() {
 	copyNotes := make([]string, 12)
 	copy(copyNotes, notes[:])
 
-	normalizedsort.Sort(copyNotes, nil)
+	Shuffle(copyNotes)
+	log.Println(copyNotes)
 
-	fmt.Println(Random(copyNotes[0]))
-	fmt.Println(Random(copyNotes[1]))
-	fmt.Println(Random(copyNotes[2]))
+	for i := 0; ; i = (i + 1) % 12 {
+		chord := Random(copyNotes[i])
+		fmt.Println(chord.Name)
+		fmt.Print("Show?")
+		fmt.Scanf("Show?")
+
+		fmt.Println(chord)
+	}
 }
