@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"math/rand"
 	"strconv"
 	"time"
@@ -259,7 +258,6 @@ func main() {
 	copy(copyNotes, notes[:])
 
 	Shuffle(copyNotes)
-	log.Println(copyNotes)
 
 	for i := 0; ; i = (i + 1) % 12 {
 		chord := Random(copyNotes[i])
