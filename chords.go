@@ -261,9 +261,8 @@ func main() {
 
 	for i := 0; ; i = (i + 1) % 12 {
 		chord := Random(copyNotes[i])
-		fmt.Println(chord.Name)
-		fmt.Print("Show?")
-		fmt.Scanf("Show?")
+		fmt.Print(chord.Name)
+		fmt.Scanf(" ")
 
 		fmt.Println(chord)
 	}
