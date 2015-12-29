@@ -3,7 +3,7 @@
 Guitar chord flashcards.
 
 ```bash
-$ go get github.com/hawx/chords
+$ go get hawx.me/code/chords
 $ chords
 ```
 
