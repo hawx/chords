@@ -200,6 +200,136 @@ func Minor7thFlat5(root Note) Chord {
 	}
 }
 
+func Diminished(root Note) Chord {
+	index0, index1, index2 := fret(root, 0), fret(root, 1), fret(root, 2)
+
+	return Chord{
+		Name: string(root) + "dim7",
+		Pos: [][6]int{
+			// X R 1 -1 1 X
+			{-1, index1, index1 + 1, index1 - 1, index1 + 1, -1},
+			// X X R 1 0 1
+			{-1, -1, index2, index2 + 1, index2, index2 + 1},
+			// R X -1 0 -1 X
+			{index0, -1, index0 - 1, index0, index0 - 1, -1},
+			// X R X -1 1 -1
+			{-1, index1, -1, index1 - 1, index1 + 1, index1 - 1},
+		},
+	}
+}
+
+func Dominant7thFlat5(root Note) Chord {
+	index0, index1 := fret(root, 0), fret(root, 1)
+
+	return Chord{
+		Name: string(root) + "7(b5)",
+		Pos: [][6]int{
+			// R X 0 1 -1 X
+			{index0, -1, index0, index0 + 1, index0 - 1, -1},
+			// X R X 0 2 -1
+			{-1, index1, -1, index1, index1 + 2, index1 - 1},
+		},
+	}
+}
+
+func Dominant7thSharp9(root Note) Chord {
+	index0, index1 := fret(root, 0), fret(root, 1)
+
+	return Chord{
+		Name: string(root) + "7(#9)",
+		Pos: [][6]int{
+			// RX X 0 1 0 3
+			{-1, -1, index0, index0 + 1, index0, index0 + 3},
+			// X R -1 0 1 X
+			{-1, index1, index1 - 1, index1, index1 + 1, -1},
+		},
+	}
+}
+
+func Dominant7thFlat13(root Note) Chord {
+	index0, index1 := fret(root, 0), fret(root, 1)
+
+	return Chord{
+		Name: string(root) + "7(b13)",
+		Pos: [][6]int{
+			// R X 0 1 1 X
+			{index0, -1, index0, index0 + 1, index0 + 1, -1},
+			// X R X 0 2 1
+			{-1, index1, -1, index1, index1 + 2, index1 + 1},
+		},
+	}
+}
+
+func Dominant7thFlat9Flat13(root Note) Chord {
+	index0, index1 := fret(root, 0), fret(root, 1)
+
+	return Chord{
+		Name: string(root) + "7(b9,b13)",
+		Pos: [][6]int{
+			// R X 0 1 1 1
+			{index0, -1, index0, index0 + 1, index0 + 1, index0 + 1},
+			// X R -1 0 -1 1
+			{-1, index1, index1 - 1, index1, index1 - 1, index1 + 1},
+		},
+	}
+}
+
+func Dominant7thFlat5Flat9(root Note) Chord {
+	index0, index1 := fret(root, 0), fret(root, 1)
+
+	return Chord{
+		Name: string(root) + "7b5(b9)",
+		Pos: [][6]int{
+			// RX X 0 1 -1 1
+			{-1, -1, index0, index0 + 1, index0 - 1, index0 + 1},
+			// X R -1 0 -1 -1
+			{-1, index1, index1 - 1, index1, index1 - 1, index1 - 1},
+		},
+	}
+}
+
+func Dominant7thFlat5Sharp9(root Note) Chord {
+	index0, index1 := fret(root, 0), fret(root, 1)
+
+	return Chord{
+		Name: string(root) + "7b5(#9)",
+		Pos: [][6]int{
+			// RX X 0 1 -1 3
+			{-1, -1, index0, index0 + 1, index0 - 1, index0 + 3},
+			// X R -1 0 1 -1
+			{-1, index1, index1 - 1, index1, index1 + 1, index1 - 1},
+		},
+	}
+}
+
+func Dominant7thSharp5Flat9(root Note) Chord {
+	index0, index1 := fret(root, 0), fret(root, 1)
+
+	return Chord{
+		Name: string(root) + "7#5(b9)",
+		Pos: [][6]int{
+			// RX X 0 1 1 1
+			{-1, -1, index0, index0 + 1, index0 + 1, index0 + 1},
+			// X R -1 0 -1 1
+			{-1, index1, index1 - 1, index1, index1 - 1, index1 + 1},
+		},
+	}
+}
+
+func Dominant7thSharp5Sharp9(root Note) Chord {
+	index0, index1 := fret(root, 0), fret(root, 1)
+
+	return Chord{
+		Name: string(root) + "7#5(#9)",
+		Pos: [][6]int{
+			// RX X 0 1 1 3
+			{-1, -1, index0, index0 + 1, index0 + 1, index0 + 3},
+			// X R -1 0 1 1
+			{-1, index1, index1 - 1, index1, index1 + 1, index1 + 1},
+		},
+	}
+}
+
 var Variants = []func(Note) Chord{
 	Major7th,
 	Major6th,
@@ -211,4 +341,13 @@ var Variants = []func(Note) Chord{
 	Dominant9th,
 	Dominant13th,
 	Minor7thFlat5,
+	Diminished,
+	Dominant7thFlat5,
+	Dominant7thSharp9,
+	Dominant7thFlat13,
+	Dominant7thFlat9Flat13,
+	Dominant7thFlat5Flat9,
+	Dominant7thFlat5Sharp9,
+	Dominant7thSharp5Flat9,
+	Dominant7thSharp5Sharp9,
 }
