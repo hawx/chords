@@ -1,32 +1,6 @@
-package main
+package chords
 
-import (
-	"fmt"
-	"math/rand"
-	"strconv"
-	"time"
-)
-
-var notes = [12]string{"C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B"}
-
-func NoteName(index int) string {
-	return notes[index%12]
-}
-
-func NoteIndex(note string) int {
-	for i, n := range notes {
-		if n == note {
-			return i
-		}
-	}
-	return -1
-}
-
-var offsets = [6]int{4, 9, 2, 7, 11, 4}
-
-func NotePos(note string, s int) int {
-	return (NoteIndex(note) - offsets[s] + 12) % 12
-}
+import "strconv"
 
 type Chord struct {
 	Name string
@@ -56,11 +30,11 @@ func (c Chord) String() string {
 	return s + "\n"
 }
 
-func Major7th(root string) Chord {
-	index0, index1, index2 := NotePos(root, 0), NotePos(root, 1), NotePos(root, 2)
+func Major7th(root Note) Chord {
+	index0, index1, index2 := fret(root, 0), fret(root, 1), fret(root, 2)
 
 	return Chord{
-		Name: root + " Maj7",
+		Name: string(root) + "maj7",
 		Pos: [][6]int{
 			// X R 2 1 2 X
 			{-1, index1, index1 + 2, index1 + 1, index1 + 2, -1},
@@ -74,11 +48,11 @@ func Major7th(root string) Chord {
 	}
 }
 
-func Major6th(root string) Chord {
-	index0, index1, index2 := NotePos(root, 0), NotePos(root, 1), NotePos(root, 2)
+func Major6th(root Note) Chord {
+	index0, index1, index2 := fret(root, 0), fret(root, 1), fret(root, 2)
 
 	return Chord{
-		Name: root + "Maj6",
+		Name: string(root) + "maj6",
 		Pos: [][6]int{
 			// X R 2 1 2 X
 			{-1, index1, index1 + 2, index1 + 1, index1 + 2, -1},
@@ -92,11 +66,11 @@ func Major6th(root string) Chord {
 	}
 }
 
-func Minor7th(root string) Chord {
-	index0, index1, index2 := NotePos(root, 0), NotePos(root, 1), NotePos(root, 2)
+func Minor7th(root Note) Chord {
+	index0, index1, index2 := fret(root, 0), fret(root, 1), fret(root, 2)
 
 	return Chord{
-		Name: root + "Min7",
+		Name: string(root) + "min7",
 		Pos: [][6]int{
 			// X R 2 0 1 X
 			{-1, index1, index1 + 2, index1, index1 + 1, index1},
@@ -110,11 +84,11 @@ func Minor7th(root string) Chord {
 	}
 }
 
-func Minor6th(root string) Chord {
-	index0, index1, index2 := NotePos(root, 0), NotePos(root, 1), NotePos(root, 2)
+func Minor6th(root Note) Chord {
+	index0, index1, index2 := fret(root, 0), fret(root, 1), fret(root, 2)
 
 	return Chord{
-		Name: root + "Min6",
+		Name: string(root) + "min6",
 		Pos: [][6]int{
 			// X R 2 -1 1 X
 			{-1, index1, index1 + 2, index1 - 1, index1 + 1, -1},
@@ -128,11 +102,11 @@ func Minor6th(root string) Chord {
 	}
 }
 
-func Minor9th(root string) Chord {
-	index1, index2 := NotePos(root, 1), NotePos(root, 2)
+func Minor9th(root Note) Chord {
+	index1, index2 := fret(root, 1), fret(root, 2)
 
 	return Chord{
-		Name: root + "Min9",
+		Name: string(root) + "min9",
 		Pos: [][6]int{
 			// X R -2 0 0 X
 			{-1, index1, index1 - 2, index1, index1, -1},
@@ -142,11 +116,11 @@ func Minor9th(root string) Chord {
 	}
 }
 
-func Minor11th(root string) Chord {
-	index0, index1 := NotePos(root, 0), NotePos(root, 1)
+func Minor11th(root Note) Chord {
+	index0, index1 := fret(root, 0), fret(root, 1)
 
 	return Chord{
-		Name: root + "Min11",
+		Name: string(root) + "min11",
 		Pos: [][6]int{
 			// R X 0 0 -2 X
 			{index0, -1, index0, index0, index0 - 2, -1},
@@ -156,11 +130,11 @@ func Minor11th(root string) Chord {
 	}
 }
 
-func Dominant7th(root string) Chord {
-	index0, index1, index2 := NotePos(root, 0), NotePos(root, 1), NotePos(root, 2)
+func Dominant7th(root Note) Chord {
+	index0, index1, index2 := fret(root, 0), fret(root, 1), fret(root, 2)
 
 	return Chord{
-		Name: root + "7",
+		Name: string(root) + "7",
 		Pos: [][6]int{
 			// X R 2 0 2 X
 			{-1, index1, index1 + 2, index1, index1 + 2, -1},
@@ -174,11 +148,11 @@ func Dominant7th(root string) Chord {
 	}
 }
 
-func Dominant9th(root string) Chord {
-	index0, index1, index2 := NotePos(root, 0), NotePos(root, 1), NotePos(root, 2)
+func Dominant9th(root Note) Chord {
+	index0, index1, index2 := fret(root, 0), fret(root, 1), fret(root, 2)
 
 	return Chord{
-		Name: root + "9",
+		Name: string(root) + "9",
 		Pos: [][6]int{
 			// X R -1 0 0 X
 			{-1, index1, index1 - 1, index1, index1, -1},
@@ -192,11 +166,11 @@ func Dominant9th(root string) Chord {
 	}
 }
 
-func Dominant13th(root string) Chord {
-	index0, index1 := NotePos(root, 0), NotePos(root, 1)
+func Dominant13th(root Note) Chord {
+	index0, index1 := fret(root, 0), fret(root, 1)
 
 	return Chord{
-		Name: root + "13",
+		Name: string(root) + "13",
 		Pos: [][6]int{
 			// X R -1 0 0 2
 			{-1, index1, index1 - 1, index1, index1, index1 + 2},
@@ -208,11 +182,11 @@ func Dominant13th(root string) Chord {
 	}
 }
 
-func Minor7thFlat5(root string) Chord {
-	index0, index1, index2 := NotePos(root, 0), NotePos(root, 1), NotePos(root, 2)
+func Minor7thFlat5(root Note) Chord {
+	index0, index1, index2 := fret(root, 0), fret(root, 1), fret(root, 2)
 
 	return Chord{
-		Name: root + "Min7(b5)",
+		Name: string(root) + "min7(b5)",
 		Pos: [][6]int{
 			// X R 1 0 1 0 X
 			{-1, index1, index1 + 1, index1, index1 + 1, -1},
@@ -226,7 +200,7 @@ func Minor7thFlat5(root string) Chord {
 	}
 }
 
-var Variants = []func(string) Chord{
+var Variants = []func(Note) Chord{
 	Major7th,
 	Major6th,
 	Minor7th,
@@ -237,33 +211,4 @@ var Variants = []func(string) Chord{
 	Dominant9th,
 	Dominant13th,
 	Minor7thFlat5,
-}
-
-var rnd = rand.New(rand.NewSource(time.Now().UnixNano()))
-
-func Random(root string) Chord {
-	i := rnd.Intn(len(Variants))
-	return Variants[i](root)
-}
-
-func Shuffle(s []string) {
-	for i := len(s) - 1; i > 0; i-- {
-		j := rnd.Intn(i + 1)
-		s[i], s[j] = s[j], s[i]
-	}
-}
-
-func main() {
-	copyNotes := make([]string, 12)
-	copy(copyNotes, notes[:])
-
-	Shuffle(copyNotes)
-
-	for i := 0; ; i = (i + 1) % 12 {
-		chord := Random(copyNotes[i])
-		fmt.Print(chord.Name)
-		fmt.Scanf(" ")
-
-		fmt.Println(chord)
-	}
 }
