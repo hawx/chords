@@ -33,6 +33,6 @@ func main() {
 		fmt.Print(chord.Name)
 		fmt.Scanf(" ")
 
-		fmt.Println(chord)
+		fmt.Println(chord.Fretboard())
 	}
 }
